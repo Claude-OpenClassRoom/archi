@@ -125,12 +125,58 @@ li:hover {
 	text-align: center;
 	margin-bottom: 1em;
 }
+
+.filtres {
+	display:flex;
+	flex-direction: row;
+	gap: 20px;
+	width:50%;
+	margin-left: 300px;
+
+}
+
+button {  
+
+    top: 812px;
+	left: 814px;
+	border-radius: 15px 15px 15px 15px;
+	background: #F6F6F6;
+	border: 1px solid #1D6154;        
+	box-shadow: 0px 4px 15px 0px #00000026;
+	text-underline-position: from-font;
+	text-decoration-skip-ink: none;
+	font-family: 'Syne', sans-serif;
+	font-weight: 700;
+	font-size: 16px;
+	line-height: 21.13px;
+	color: #1D6154;
+	text-align: center;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction:row;
+	align-items: center;
+	text-decoration: none;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-right: 15px;
+	padding-left: 15px;
+	gap: 15px; 
+	white-space:nowrap;
+	}
+
+	button:hover {
+		background: #1D6154;
+		color: white;
+
+	}
+
 .gallery {
 	width: 100%;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
 	grid-row-gap: 20px;
+	padding-top: 50px;
 }
 
 .gallery img {
@@ -185,4 +231,5 @@ footer nav ul {
 	justify-content: flex-end;
 	margin: 2em
 }
+
 
