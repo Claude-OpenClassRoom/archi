@@ -10,7 +10,7 @@ const response = await fetch('http://localhost:5678/api/categories');
 const categories = await response.json();
 
 
-ajoutListenerEnvoyerUtilisateur()
+/*ajoutListenerEnvoyerUtilisateur()*/
 function genererTravaux(travaux){
   for (let i = 0; i < travaux.length; i++) {
 
