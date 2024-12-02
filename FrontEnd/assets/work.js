@@ -1,6 +1,6 @@
 
 import { afficherFiltre } from "./category.js";
-import { ajoutListenerEnvoyerUtilisateur} from "./connexion.js";
+import {} from "./login.js";
 
 
 // Récupération des travaux depuis le fichier JSON
@@ -125,10 +125,10 @@ const works = fetch('http://localhost:5678/api/works')
                     linkIcon.classList.add('link-icon');
                     linkIcon.appendChild(trashIcon);
         
-                    linkIcon.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        deleteImage(item);
-                    });
+                    linkIcon.addEventListener("click", function (event) {
+                        event.preventDefault(); // Empêche le rechargement de la page
+                        deleteWork(travail.id); // Supprime le travail lors du clic
+                      });
         
                     const figcaptionElement = document.createElement("figcaption");
                     console.log(travail.title)
@@ -154,24 +154,35 @@ const works = fetch('http://localhost:5678/api/works')
 }
 
 
-function deleteImage(item) {
-    console.log('item: ', item);
-    token = window.localStorage.getItem("token")
-    console.log(token)
-    fetch(`http://localhost:5678/api/works/${item.id}`, {
-        method: 'DELETE',
+////////////////////// FONCTION DELETE //////////////////////
+
+// Fonction asynchrone pour supprimer un travail par son identifiant
+async function deleteWork(workId) {
+    try {
+      // Envoie une requête DELETE à l'API pour supprimer le travail spécifié
+      const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
+        method: "DELETE",
         headers: {
-            'Authorization': 'Bearer ' + token
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-}
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`, // Utilise le token stocké pour l'authentification
+        },
+      });
+  
+      // Si la réponse n'est pas OK, lance une exception
+      if (!response.ok) throw new Error("Failed to delete work"); // Gère les réponses non réussies
+    /*  globalWorks = null; // Réinitialise le cache des travaux*/
+    /*  await displayWorksInModal(); // Met à jour l'affichage sans rechargement de la page*/
+    /*  await displayFilteredWorks(); // Rafraîchit l'affichage des travaux*/
+    } catch (error) {
+      console.error("Erreur lors de la suppression:", error); // Log en cas d'erreur
+    }
+  }
+  
+  // Rafraîchit l'affichage des travaux quand nécessaire
+  const editWorksButton = document.getElementById("edit-works");
+  if (editWorksButton) {
+    editWorksButton.addEventListener("click", displayWorksInModal);
+  }
+  
 
 
    
