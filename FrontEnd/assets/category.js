@@ -33,10 +33,8 @@ export function afficherFiltre(categories) {
                     workElement.appendChild(titleElement);              
                  }              
               }              
-               const travauxFiltrees = travaux.filter(function (work) {
-               
-                 return work.categoryId === category.id
-              
+               const travauxFiltrees = travaux.filter(function (work) {               
+                 return work.categoryId === category.id              
                 
             });
             console.log (travauxFiltrees )

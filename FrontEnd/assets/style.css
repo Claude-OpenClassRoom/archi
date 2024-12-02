@@ -23,6 +23,7 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
@@ -135,6 +136,43 @@ li:hover {
 
 }
 
+.edit_project{
+	display:flex;
+	flex-direction: row;
+	margin-left:450px;
+	width:50%;
+	gap:20px;
+}
+
+.popup_edit {
+	display:flex;
+	flex-direction: row;
+	margin-top:10px;
+	gap: 15px;
+}
+
+.pen{
+	width: 15.58px;
+	height: 15.58px;
+	top: 735px;
+	left: 846px;
+	font-size: 20px;
+	color: #000000;
+    background: #FFFFFF;    
+}
+
+.js-modal{
+	font-family: Work Sans;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 16.42px;
+	text-align: center;
+	text-underline-position: from-font;
+	text-decoration-skip-ink: none;
+	color: #000000;
+	
+    }
+
 button {  
 
     top: 812px;
@@ -231,5 +269,115 @@ footer nav ul {
 	justify-content: flex-end;
 	margin: 2em
 }
+
+/*modal*/
+
+.modal {
+	width: 70%;
+	background-color: #F6F6F6;
+	position: relative;
+	margin-top: -2400px;
+	padding-bottom: 30px;
+	margin-left: 250px;
+}
+
+.modal_gallery {
+	width: 100%;
+	display: grid;
+	grid-template-columns: 0.1fr 0.1fr 0.1fr 0.1fr;
+	grid-column-gap: 10px;
+	grid-row-gap: 10px;
+	padding-top: 50px;
+	padding-left: 220px;
+	padding-bottom:30px;
+	text-align: center;
+}
+
+aside .work-element{
+	width: 76.86px;
+	height: 102.57px;
+	top: 796px;
+	left: 510px;
+	gap: 0px;
+	opacity: 0px;	
+}
+
+.modal1-title{
+	text-align:center;
+}
+
+aside button {  
+
+    top: 812px;
+	left: 814px;
+	border-radius: 15px 15px 15px 15px;
+	background: #1D6154;
+	border: 1px solid #1D6154;        
+	box-shadow: 0px 4px 15px 0px #00000026;
+	text-underline-position: from-font;
+	text-decoration-skip-ink: none;
+	font-family: 'Syne', sans-serif;
+	font-weight: 700;
+	font-size: 16px;
+	line-height: 21.13px;
+	color: #F6F6F6;
+	text-align: center;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction:row;
+	align-items: center;
+	text-decoration: none;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-right: 30px;
+	padding-left: 30px;
+	gap: 15px; 
+	white-space:nowrap;
+	}
+aside .js-modal {
+    font-family: Work Sans;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.42px;
+    text-align: center;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #F6F6F6;
+}
+
+.wrapper-link{
+	margin-left: 300px;
+}
+
+.trash-icon {
+	position: relative;
+    top: -100px;
+    left: 30px;
+	color:#F6F6F6;
+	background-color: #000000;
+	width: 16px;
+    height: 16px;
+}
+
+.closed {
+	position: relative;
+    top: 20px;
+    left: 760px;
+	padding: 6px 5.99px 5.99px 6px;
+}
+
+aside h2{
+	font-family: Work Sans;
+font-size: 26px;
+font-weight: 400;
+line-height: 30.5px;
+text-align: center;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+color:#000000;
+}
+
+
+
 
 
