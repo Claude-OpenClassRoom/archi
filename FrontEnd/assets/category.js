@@ -10,6 +10,7 @@ export function afficherFiltre(categories) {
     const sectionFiltres = document.querySelector(".filtres");
     categories.forEach(category=>{
         const button = document.createElement("button")
+        button.classList.add('filtre');
         button.textContent = category.name
         button.addEventListener("click", async function (){
 

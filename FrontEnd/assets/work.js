@@ -54,10 +54,9 @@ genererTravaux(travaux);
 genererFiltres()
 
 const boutonFiltrerTous = document.querySelector("#tous");
-
-    boutonFiltrerTous.addEventListener("click", async function () {        
-       
-   
+    boutonFiltrerTous.classList.add('filtre');
+    boutonFiltrerTous.addEventListener("click", async function () {     
+    
          function genererTravaux(travaux){
             for (let i = 0; i < travaux.length; i++) {
           
@@ -170,8 +169,8 @@ async function deleteWork(workId) {
   
       // Si la réponse n'est pas OK, lance une exception
       if (!response.ok) throw new Error("Failed to delete work"); // Gère les réponses non réussies
-     globalWorks = null; // Réinitialise le cache des travaux
-     await displayWorksInModal(); // Met à jour l'affichage sans rechargement de la page
+     //globalWorks = null; // Réinitialise le cache des travaux
+   //  await displayWorksInModal(); // Met à jour l'affichage sans rechargement de la page
      await displayFilteredWorks(); // Rafraîchit l'affichage des travaux
     } catch (error) {
       console.error("Erreur lors de la suppression:", error); // Log en cas d'erreur

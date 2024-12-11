@@ -1,3 +1,4 @@
+
 // Déclaration de variables pour la gestion des modales
 let modal = null;
 const focusableSelector = "button, a, input, textarea"; // Sélecteurs pour éléments focusables dans la modale
@@ -107,9 +108,12 @@ function updateModalHandler(modalActive) {
 // Fonction pour ouvrir la modale d'ajout de travail
 function openAddWorkModal() {
   const modalAddWork = document.getElementById("modalAddWork");
-  const modalGallery = document.getElementById("modalGallery");
+  const modalGallery = document.getElementById("modal1");
   if (modalGallery) {
     modalGallery.style.display = "none"; // Cache la modale principale
+    document.querySelector("#modal1").innerHTML = "";
+    const aside = document.querySelector(".modal")
+    aside.style.display="none";
   }
   updateModalHandler(modalAddWork);
   if (modalAddWork) {
@@ -160,20 +164,17 @@ document.addEventListener("DOMContentLoaded", setupModalButtons);
 
 // Fonction asynchrone pour afficher les travaux dans une modale
 async function displayWorksInModal() {
+
+
   // Appelle la fonction getWorks pour obtenir les travaux depuis l'API ou le cache
-  const works = await getWorks();
+//  const works = await getWorks();
 
   // Sélectionne l'élément du DOM pour le contenu de la modale
-  const modalContent = document.querySelector(".modal-content");
-  if (!modalContent) {
-    console.error("L'élément modal-content n'a pas été trouvé.");
-    return;
-  }
-  // Vide le contenu précédent pour éviter les duplications lors de l'affichage
-  modalContent.innerHTML = "";
+ // const modalContent = document.querySelector(".modal-content");
+
 
   // Boucle sur chaque travail récupéré pour l'afficher dans la modale
-  works.forEach((work) => {
+ /* works.forEach((work) => {
     // Vérifie si un élément pour ce travail existe déjà pour éviter de le créer à nouveau
     let workElement = document.getElementById(`work-${work.id}`);
     if (!workElement) {
@@ -204,7 +205,7 @@ async function displayWorksInModal() {
       figureElement.appendChild(spanElement);
       modalContent.appendChild(figureElement);
     }
-  });
+  });*/
 }
 ////////////////////// FONCTION DELETE //////////////////////
 
@@ -221,7 +222,7 @@ async function deleteWork(workId) {
 
     // Si la réponse n'est pas OK, lance une exception
     if (!response.ok) throw new Error("Failed to delete work"); // Gère les réponses non réussies
-    globalWorks = null; // Réinitialise le cache des travaux
+    //globalWorks = null; // Réinitialise le cache des travaux
     await displayWorksInModal(); // Met à jour l'affichage sans rechargement de la page
     await displayFilteredWorks(); // Rafraîchit l'affichage des travaux
   } catch (error) {
@@ -284,7 +285,7 @@ async function addWork(event) {
       method: "POST",
       body: formData,
       headers: {
-        Authorization: `Bearer ${sessionStorage.getItem("token")}`, // Authentification avec le token
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`, // Authentification avec le token,Utilise le token stocké pour l'authentification
       },
     });
 
@@ -296,11 +297,11 @@ async function addWork(event) {
     console.log("Projet ajouté avec succès:", result);
 
     // Réinitialise le cache des travaux
-    globalWorks = null;
+    //globalWorks = null;
 
     // Met à jour l'affichage des travaux
     await displayWorksInModal();
-    await displayFilteredWorks();
+   // await displayFilteredWorks();
 
     // Réinitialise le formulaire après la soumission
     form.reset();
