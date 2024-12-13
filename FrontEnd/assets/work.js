@@ -56,28 +56,7 @@ genererFiltres()
 const boutonFiltrerTous = document.querySelector("#tous");
     boutonFiltrerTous.classList.add('filtre');
     boutonFiltrerTous.addEventListener("click", async function () {     
-    
-         function genererTravaux(travaux){
-            for (let i = 0; i < travaux.length; i++) {
-          
-                const work = travaux[i];
-                // Récupération de l'élément du DOM qui accueillera les travaux
-                const sectionGallery = document.querySelector(".gallery");
-                // Création d’une balise dédiée à une pièce automobile
-                const workElement = document.createElement("figure");
-                // Création des balises 
-                const imageElement = document.createElement("img");
-                imageElement.src = work.imageUrl;
-                const titleElement = document.createElement("figcaption");
-                titleElement.innerText = work.title;
-               
-                // On rattache la balise work a la section gallery
-                sectionGallery.appendChild(workElement);
-                workElement.appendChild(imageElement);
-                workElement.appendChild(titleElement);              
-             }
-          
-          }
+         await genererTravaux(travaux)
        
     document.querySelector(".gallery").innerHTML = "";
     genererTravaux(travaux);
@@ -89,7 +68,7 @@ afficherFiltre(categories)
 const works = fetch('http://localhost:5678/api/works')
 .then(response => response.json())
 .then(data => {
-    console.log('data', data);
+    
     ajoutTravaux(data)
               
 });
@@ -112,12 +91,8 @@ const works = fetch('http://localhost:5678/api/works')
                     workElement.classList.add('work-element');
     
                     const imageElement = document.createElement("img");
-                    console.log(travail.imageUrl)
-                    imageElement.src = travail.imageUrl;
-                                    
-                    imageElement.style.width = "76.86px";
-                    imageElement.style.height = "102.57px";
-        
+                    imageElement.src = travail.imageUrl;                                 
+                       
                     const trashIcon = document.createElement("i");
                     trashIcon.classList.add('fa-regular', 'fa-trash-can', 'trash-icon');
         
@@ -128,18 +103,13 @@ const works = fetch('http://localhost:5678/api/works')
                     linkIcon.addEventListener("click", function (event) {
                         event.preventDefault(); // Empêche le rechargement de la page
                         deleteWork(travail.id); // Supprime le travail lors du clic
-                      });
-        
-                    const figcaptionElement = document.createElement("figcaption");
-                    console.log(travail.title)
-                    figcaptionElement.innerText = travail.title;
-                    figcaptionElement.style.fontSize = "14px";
+                      });                
                     
                      // On rattache la balise work a la section madal
                     sectionWorks.appendChild(workElement);
                     workElement.appendChild(imageElement);
                     workElement.appendChild(linkIcon);
-                  //  workElement.appendChild(figcaptionElement);
+         
                   const closedGallery = document.querySelector (".closed")                   
                   closedGallery .addEventListener("click", async function () {      
                     document.querySelector(".modal_gallery").innerHTML = "";
@@ -153,6 +123,57 @@ const works = fetch('http://localhost:5678/api/works')
 
 }
 
+
+/////////////////////////// MODAL CONTENT //////////////////////////
+
+// Fonction asynchrone pour afficher les travaux dans une modale
+async function displayWorksInModal() {
+  // Appelle la fonction getWorks pour obtenir les travaux depuis l'API ou le cache
+  const works = await getWorks();
+
+  // Sélectionne l'élément du DOM pour le contenu de la modale
+  const modalContent = document.querySelector(".modal-content");
+  if (!modalContent) {
+   // console.error("L'élément modal-content n'a pas été trouvé.");
+    return;
+  }
+  // Vide le contenu précédent pour éviter les duplications lors de l'affichage
+  modalContent.innerHTML = "";
+
+  // Boucle sur chaque travail récupéré pour l'afficher dans la modale
+  works.forEach((work) => {
+    // Vérifie si un élément pour ce travail existe déjà pour éviter de le créer à nouveau
+    let workElement = document.getElementById(`work-${work.id}`);
+    if (!workElement) {
+      // Crée un élément figure pour chaque travail si non existant
+      const figureElement = document.createElement("figure");
+      figureElement.classList.add("image-container");
+      figureElement.id = `work-${work.id}`;
+
+      // Crée un élément image, configure son source et le texte alternatif
+      const imgElement = document.createElement("img");
+      imgElement.src = work.imageUrl;
+      imgElement.alt = work.title;
+
+      // Prépare l'icône de suppression et son conteneur
+      const spanElement = document.createElement("span");
+      spanElement.classList.add("icon-background");
+      // Crée une icône de suppression et y attache un gestionnaire d'événements
+      const iconElement = document.createElement("i");
+      iconElement.classList.add("fa-solid", "fa-trash-can", "icon-overlay");
+      iconElement.addEventListener("click", function (event) {
+        event.preventDefault(); // Empêche le rechargement de la page
+        deleteWork(work.id); // Supprime le travail lors du clic
+      });
+
+      // Assemble et ajoute les éléments à la modale
+      spanElement.appendChild(iconElement);
+      figureElement.appendChild(imgElement);
+      figureElement.appendChild(spanElement);
+      modalContent.appendChild(figureElement);
+    }
+  });
+}
 
 ////////////////////// FONCTION DELETE //////////////////////
 
@@ -169,12 +190,26 @@ async function deleteWork(workId) {
   
       // Si la réponse n'est pas OK, lance une exception
       if (!response.ok) throw new Error("Failed to delete work"); // Gère les réponses non réussies
-     //globalWorks = null; // Réinitialise le cache des travaux
-   //  await displayWorksInModal(); // Met à jour l'affichage sans rechargement de la page
-     await displayFilteredWorks(); // Rafraîchit l'affichage des travaux
+
+   globalWorks = null; // Réinitialise le cache des travaux
+   await displayWorksInModal(); // Met à jour l'affichage sans rechargement de la page 
+   await displayFilteredWorks(); // Rafraîchit l'affichage des travaux  
+     const works = fetch('http://localhost:5678/api/works')
+      .then(response => response.json())
+      .then(dataSup => {                       
+          document.querySelector(".modal_gallery").innerHTML = "";
+          globalWorks = null; // Réinitialise le cache des travaux          
+          ajoutTravaux(dataSup)   
+      });  
+
+
+
     } catch (error) {
       console.error("Erreur lors de la suppression:", error); // Log en cas d'erreur
     }
+    
+    const aside = document.querySelector(".modal")
+    aside.style.display="none";
   }
   
   // Rafraîchit l'affichage des travaux quand nécessaire
@@ -199,7 +234,7 @@ async function getWorks() {
       }
       // Convertit la réponse en JSON et la stocke dans la variable globale.
       globalWorks = await response.json();
-      console.log("Works fetched:", globalWorks);
+     
     } catch (error) {
       console.error("Failed to fetch works:", error.message);
       // Assigner un tableau vide en cas d'échec de la récupération des données.
@@ -214,9 +249,9 @@ async function getWorks() {
 async function getCategories() {
   // Requête pour récupérer les catégories.
   const categories = await fetch("http://localhost:5678/api/categories");
-  console.log(categories);
+ 
   const categoriesJson = await categories.json();
-  console.log(categoriesJson);
+  
   return categoriesJson;
 }
 // Fonction pour afficher les catégories dans l'interface utilisateur.
@@ -283,8 +318,13 @@ function isConnected() {
 // Gère le bouton de connexion/déconnexion en fonction de l'état de connexion
 function handleLoginButton() {
   const loginButton = document.querySelector("#login-button");
+  const bandeau_mode_edition = document.querySelector("#header-edit")
+  const pop_up_modif = document.querySelector(".popup_edit")
   if (isConnected()) {
     loginButton.innerText = "logout";
+    bandeau_mode_edition.style.display="block";
+    pop_up_modif.style.display="block";
+    pop_up_modif.style.display="flex";
     loginButton.addEventListener("click", () => {
       sessionStorage.removeItem("token");
       window.location.href = "./index.html"; // Redirige vers l'accueil après déconnexion

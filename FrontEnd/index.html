@@ -27,7 +27,8 @@
 
 <body>
 	<header>
-		<div id="header-edit">
+		<div id="header-edit"  role="dialog" aria-labelledby="titlemodal"
+		style="display:none;">
 			<div class="edit"><i class="fa-regular fa-pen-to-square"></i>
 				<p>Mode édition</p>
 			</div>
@@ -66,11 +67,12 @@
 
 			<div class="edit_project">
 				<h2>Mes Projets</h2>
-				<div class="popup_edit">
+				<div class="popup_edit" role="dialog" aria-labelledby="titlemodal"
+				style="display:none;">
 					<i class="fa-solid fa-pen-to-square pen"></i>
-					<a href="#modal1" class="js-modal modify_action modify_hidden">
+					<span href="#modal1"  id="edit-works" class="js-modal modify_action modify_hidden">
 						<h3>modifier <h3>
-					</a>
+					</span>
 				</div>
 			</div>
 			<div class="filtres">
@@ -103,7 +105,7 @@
 		</nav>
 	</footer>
 
-	<aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-labelledby="titlemodal"
+	<aside id="modal1" class="modal"  role="dialog" aria-labelledby="titlemodal"
 		style="display:none;">
 		<div class="modal-wrapper js-modal-stop">
 			<div class="wrapper-nav">
@@ -112,6 +114,9 @@
 			<div class="wrapper-content">
 				<div class="content-title modal1-title">
 					<h2>Galerie photo</h2>
+				</div>
+				<div class="modal-content">
+					<!-- Galerie gérée par JavaScript -->
 				</div>
 				<div class="modal_gallery">
 
@@ -124,7 +129,7 @@
 		</div>
 	</aside>
 
-	<section class="modal" id="modalAddWork" aria-hidden="true" style="display: none;">
+	<section class="modal" id="modalAddWork"  style="display: none;">
 		<div class="modal-wrapper js-modal-stop">
 			<button class="js-modal-back"><i class="fa-solid fa-arrow-left"></i></i></button>
 			<button class="js-modal-close close"><i class="fa-solid fa-xmark"></i></button>

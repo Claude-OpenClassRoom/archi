@@ -1,3 +1,4 @@
+
 // Récupération des categories depuis l'api
 const repons = await fetch('http://localhost:5678/api/categories');
 const categories = await repons.json();
@@ -13,7 +14,7 @@ export function afficherFiltre(categories) {
         button.classList.add('filtre');
         button.textContent = category.name
         button.addEventListener("click", async function (){
-
+            await genererTravaux(travaux)
             function genererTravaux(travaux){
                 for (let i = 0; i < travaux.length; i++) {
               
