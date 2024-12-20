@@ -39,7 +39,6 @@ export function afficherFiltre(categories) {
                  return work.categoryId === category.id              
                 
             });
-            console.log (travauxFiltrees )
             document.querySelector(".gallery").innerHTML = "";
             genererTravaux(travauxFiltrees);
                

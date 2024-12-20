@@ -1,4 +1,3 @@
-
   // Variable globale pour stocker les travaux afin d'éviter des requêtes API multiples inutiles.
   let globalWorks = null;
 
@@ -15,7 +14,7 @@
         }
         // Convertit la réponse en JSON et la stocke dans la variable globale.
         globalWorks = await response.json();
-    
+       
       } catch (error) {
         console.error("Failed to fetch works:", error.message);
         // Assigner un tableau vide en cas d'échec de la récupération des données.
@@ -25,7 +24,6 @@
     // Retourne les travaux stockés.
     return globalWorks;
   }
-
 // Déclaration de variables pour la gestion des modales
 let modal = null;
 const focusableSelector = "button, a, input, textarea"; // Sélecteurs pour éléments focusables dans la modale
@@ -69,7 +67,7 @@ const openModal = function (e) {
   focusables = Array.from(modal.querySelectorAll(focusableSelector)); // Collecte tous les éléments focusables
   if (focusables.length) focusables[0].focus(); // Focus sur le premier élément focusable
   modal.style.display = "flex"; // Affiche la modale
-  //modal.setAttribute("aria-hidden", "false");
+  modal.setAttribute("aria-hidden", "false");
   modal.setAttribute("aria-modal", "true");
   document.addEventListener("keydown", handleKeyDown); // Écouteur pour la gestion du clavier
   const closeModalButton = modal.querySelector(".js-modal-close");
@@ -84,11 +82,11 @@ const openModal = function (e) {
 
 // Ferme la modale et nettoie les écouteurs d'événements
 const closeModal = function (e) {
- 
+  console.log("closeModal");
   if (e && e.preventDefault) e.preventDefault(); // Empêche le comportement par défaut lors de la fermeture
   if (!modal) return;
   modal.style.display = "none";
- // modal.setAttribute("aria-hidden", "true");
+  modal.setAttribute("aria-hidden", "true");
   modal.removeAttribute("aria-modal");
   document.removeEventListener("keydown", handleKeyDown);
   modal
@@ -142,7 +140,7 @@ function openAddWorkModal() {
   updateModalHandler(modalAddWork);
   if (modalAddWork) {
     modalAddWork.style.display = "flex"; // Affiche la modale
-   // modalAddWork.setAttribute("aria-hidden", "false"); // Accessibilité : rend la modale visible aux technologies d'assistance
+    modalAddWork.setAttribute("aria-hidden", "false"); // Accessibilité : rend la modale visible aux technologies d'assistance
     modalAddWork.setAttribute("aria-modal", "true"); // Indique que c'est une modale
     modalAddWork.addEventListener("click", closeModal); // Ajoute l'écouteur pour fermer en cliquant en dehors de la modale
     modalAddWork
@@ -192,9 +190,9 @@ async function displayWorksInModal() {
   const works = await getWorks();
 
   // Sélectionne l'élément du DOM pour le contenu de la modale
-  const modalContent = document.querySelector(".modal_gallery");
+  const modalContent = document.querySelector(".modal-content");
   if (!modalContent) {
-    console.error("L'élément modal_gallery n'a pas été trouvé.");
+    console.error("L'élément modal-content n'a pas été trouvé.");
     return;
   }
   // Vide le contenu précédent pour éviter les duplications lors de l'affichage
@@ -234,7 +232,28 @@ async function displayWorksInModal() {
     }
   });
 }
+////////////////////// FONCTION DELETE //////////////////////
 
+// Fonction asynchrone pour supprimer un travail par son identifiant
+async function deleteWork(workId) {
+  try {
+    // Envoie une requête DELETE à l'API pour supprimer le travail spécifié
+    const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`, // Utilise le token stocké pour l'authentification
+      },
+    });
+
+    // Si la réponse n'est pas OK, lance une exception
+    if (!response.ok) throw new Error("Failed to delete work"); // Gère les réponses non réussies
+    globalWorks = null; // Réinitialise le cache des travaux
+    await displayWorksInModal(); // Met à jour l'affichage sans rechargement de la page
+    await displayFilteredWorks(); // Rafraîchit l'affichage des travaux
+  } catch (error) {
+    console.error("Erreur lors de la suppression:", error); // Log en cas d'erreur
+  }
+}
 
 // Rafraîchit l'affichage des travaux quand nécessaire
 const editWorksButton = document.getElementById("edit-works");
@@ -300,7 +319,7 @@ async function addWork(event) {
     }
 
     const result = await response.json();
-    
+    console.log("Projet ajouté avec succès:", result);
 
     // Réinitialise le cache des travaux
     globalWorks = null;
@@ -308,20 +327,7 @@ async function addWork(event) {
     // Met à jour l'affichage des travaux
     await displayWorksInModal();
     await displayFilteredWorks();
-    const works = fetch('http://localhost:5678/api/works')
-    .then(response => response.json())
-    .then(dataAj => {
- 
-        globalWorks = null; // Réinitialise le cache des travaux        
-        document.querySelector(".modal_gallery").innerHTML = "";
-        const aside = document.querySelector(".modal")
-        aside.style.display="none";
-        ajoutTravaux(dataAj)
-            
-    });
-  
-   
-    
+
     // Réinitialise le formulaire après la soumission
     form.reset();
     previewImage.style.display = "none"; // Cache l'aperçu de l'image
