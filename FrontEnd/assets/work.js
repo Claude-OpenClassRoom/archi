@@ -1,9 +1,4 @@
 
-import { afficherFiltre } from "./category.js";
-import {} from "./modal.js"
-import {} from "./login.js";
-
-
 // Récupération des travaux depuis le fichier JSON
 const reponse = await fetch('http://localhost:5678/api/works');
 const travaux = await reponse.json();
@@ -47,10 +42,7 @@ function genererFiltres(){
     sectionFiltres.appendChild(buttonElementTous);
 
   
-     }
-  
-  
-
+     } 
 genererTravaux(travaux);
 genererFiltres()
 
@@ -116,8 +108,7 @@ afficherFiltre(categories)
 
 }
 
-
-  
+ 
 
 
   // Variable globale pour stocker les travaux afin d'éviter des requêtes API multiples inutiles.
@@ -148,17 +139,17 @@ async function getWorks() {
 }
 
 // Fonction asynchrone pour récupérer les catégories depuis l'API.
-async function getCategories() {
+/* async function getCategories() {
   // Requête pour récupérer les catégories.
   const categories = await fetch("http://localhost:5678/api/categories");
  
   const categoriesJson = await categories.json();
   
   return categoriesJson;
-}
+}*/
 // Fonction pour afficher les catégories dans l'interface utilisateur.
 async function displayCategories() {
-  const categories = await getCategories();
+ // const categories = await getCategories();
   // Ajoute une option "Tous" pour permettre l'affichage de tous les travaux.
   categories.unshift({ id: 0, name: "Tous" });
   const filtersContainer = document.querySelector("#filter-container");

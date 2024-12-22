@@ -1,19 +1,16 @@
 
-// Récupération des categories depuis l'api
-const repons = await fetch('http://localhost:5678/api/categories');
-const categories = await repons.json();
-const reponse = await fetch('http://localhost:5678/api/works');
-const travaux = await reponse.json();
 
 
-
-export function afficherFiltre(categories) {
+  async function afficherFiltre(categories) {
     const sectionFiltres = document.querySelector(".filtres");
     categories.forEach(category=>{
         const button = document.createElement("button")
         button.classList.add('filtre');
         button.textContent = category.name
         button.addEventListener("click", async function (){
+            // Récupération des travaux depuis le fichier JSON
+        const reponse = await fetch('http://localhost:5678/api/works');
+        const travaux = await reponse.json();
             await genererTravaux(travaux)
             function genererTravaux(travaux){
                 for (let i = 0; i < travaux.length; i++) {
@@ -42,9 +39,9 @@ export function afficherFiltre(categories) {
             document.querySelector(".gallery").innerHTML = "";
             genererTravaux(travauxFiltrees);
                
-               
         })
-        sectionFiltres.appendChild(button)    
+        sectionFiltres.appendChild(button) 
+   
     }
 
      )

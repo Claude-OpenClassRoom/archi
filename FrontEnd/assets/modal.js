@@ -270,12 +270,12 @@ async function loadCategories() {
     console.error("L'élément categoryInput n'a pas été trouvé.");
     return;
   }
-  categorySelect.innerHTML = ""; // Vide les options existantes
+  
 
   try {
     const response = await fetch("http://localhost:5678/api/categories");
     const categories = await response.json();
-
+    categorySelect.innerHTML = ""; // Vide les options existantes
     // Ajoute une option par défaut
     const defaultOption = document.createElement("option");
     defaultOption.value = "";
