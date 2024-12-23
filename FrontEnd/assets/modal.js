@@ -1,3 +1,4 @@
+  
   // Variable globale pour stocker les travaux afin d'éviter des requêtes API multiples inutiles.
   let globalWorks = null;
 
@@ -249,10 +250,13 @@ async function deleteWork(workId) {
     if (!response.ok) throw new Error("Failed to delete work"); // Gère les réponses non réussies
     globalWorks = null; // Réinitialise le cache des travaux
     await displayWorksInModal(); // Met à jour l'affichage sans rechargement de la page
-    await displayFilteredWorks(); // Rafraîchit l'affichage des travaux
+    await displayFilteredWorks(); // Rafraîchit l'affichage des travaux     
+
+ 
   } catch (error) {
     console.error("Erreur lors de la suppression:", error); // Log en cas d'erreur
   }
+
 }
 
 // Rafraîchit l'affichage des travaux quand nécessaire

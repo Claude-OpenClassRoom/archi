@@ -5,8 +5,6 @@ const travaux = await reponse.json();
 const response = await fetch('http://localhost:5678/api/categories');
 const categories = await response.json();
 
-
-
 /*ajoutListenerEnvoyerUtilisateur()*/
 function genererTravaux(travaux){
   for (let i = 0; i < travaux.length; i++) {
@@ -42,18 +40,18 @@ function genererFiltres(){
     sectionFiltres.appendChild(buttonElementTous);
 
   
-     } 
+     }
+ 
 genererTravaux(travaux);
 genererFiltres()
 
 const boutonFiltrerTous = document.querySelector("#tous");
     boutonFiltrerTous.classList.add('filtre');
     boutonFiltrerTous.addEventListener("click", async function () {     
-         await genererTravaux(travaux)
-       
-    document.querySelector(".gallery").innerHTML = "";
-    genererTravaux(travaux);
-});
+        await genererTravaux(travaux)
+        document.querySelector(".gallery").innerHTML = "";
+        genererTravaux(travaux);
+    });
 
 afficherFiltre(categories)
 
@@ -108,9 +106,6 @@ afficherFiltre(categories)
 
 }
 
- 
-
-
   // Variable globale pour stocker les travaux afin d'éviter des requêtes API multiples inutiles.
 let globalWorks = null;
 
@@ -138,41 +133,8 @@ async function getWorks() {
   return globalWorks;
 }
 
-// Fonction asynchrone pour récupérer les catégories depuis l'API.
-/* async function getCategories() {
-  // Requête pour récupérer les catégories.
-  const categories = await fetch("http://localhost:5678/api/categories");
- 
-  const categoriesJson = await categories.json();
-  
-  return categoriesJson;
-}*/
 // Fonction pour afficher les catégories dans l'interface utilisateur.
-async function displayCategories() {
- // const categories = await getCategories();
-  // Ajoute une option "Tous" pour permettre l'affichage de tous les travaux.
-  categories.unshift({ id: 0, name: "Tous" });
-  const filtersContainer = document.querySelector("#filter-container");
-  /*filtersContainer.innerHTML = ""; // Vide les filtres existants pour éviter les duplications lors de l'affichage*/
 
-  categories.forEach((cat) => {
-    const filterElement = document.createElement("div");
-    filterElement.classList.add("filter-item");
-    filterElement.innerText = cat.name;
-    filterElement.addEventListener("click", () => {
-      // Supprime la classe 'selected' de tous les éléments pour s'assurer que seul l'élément actif l'ait
-      document
-        .querySelectorAll(".filter-item")
-        .forEach((item) => item.classList.remove("selected"));
-      filterElement.classList.add("selected"); // Ajoute la classe 'selected' à l'élément cliqué
-      filterWorks(cat.id); // Filtre les travaux en fonction de la catégorie sélectionnée
-    });
-   /* filtersContainer.appendChild(filterElement);*/
-  });
-
-  // Sélectionne par défaut le premier élément 'Tous'
- /*filtersContainer.firstChild.classList.add("selected"); */
-}
 
 // Fonction pour filtrer les travaux par catégorie.
 async function filterWorks(categoryId) {
@@ -249,7 +211,6 @@ document.addEventListener("DOMContentLoaded", () => {
 // Fonction principale qui initialise toutes les autres au chargement de la page
 (function main() {
   handleLoginButton();
-  displayCategories();
   handleAdminElements();
 })();
 

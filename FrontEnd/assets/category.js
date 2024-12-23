@@ -1,6 +1,3 @@
-
-
-
   async function afficherFiltre(categories) {
     const sectionFiltres = document.querySelector(".filtres");
     categories.forEach(category=>{
