@@ -15,14 +15,16 @@
                     const work = travaux[i];
                     // Récupération de l'élément du DOM qui accueillera les travaux
                     const sectionGallery = document.querySelector(".gallery");
-                    // Création d’une balise dédiée à une pièce automobile
+
+                    const filtreCategorie= document.querySelector(".filtre")
+                    // Création d’une balise dédiée à un travail
                     const workElement = document.createElement("figure");
                     // Création des balises 
                     const imageElement = document.createElement("img");
                     imageElement.src = work.imageUrl;
                     const titleElement = document.createElement("figcaption");
                     titleElement.innerText = work.title;
-                   
+
                     // On rattache la balise work a la section gallery
                     sectionGallery.appendChild(workElement);
                     workElement.appendChild(imageElement);

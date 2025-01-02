@@ -22,6 +22,14 @@ time, mark, audio, video {
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
+	text-decoration: none;
+
+}
+
+nav a {
+    line-height: 19px;
+	text-decoration: none;
+    color: #000000;
 }
 
 /* HTML5 display-role reset for older browsers */
@@ -69,14 +77,15 @@ h1{
 	font-family: 'Syne';
 	font-size: 22px;
 	font-weight: 800;
-	color: #B1663C
+	color: #B1663C;
+	gap:5px;
 }
 
 h1 > span {
 	font-family: 'Work Sans';
 	font-size:10px;
 	letter-spacing: 0.1em;
-;
+
 }
 
 h2{
@@ -205,6 +214,12 @@ button {
 		color: white;
 
 	}
+
+	button:active {
+		background-color: #1D6154;
+		color: white;
+
+	}
 .filtre{
 	display: inline-flex;
 	border: 1px solid #1d6154;
@@ -213,6 +228,10 @@ button {
 	border-radius: 20px;
 }
 
+.filtre:focus{
+	background-color: #1D6154;
+	color: white;
+}
 
 .gallery {
 	width: 100%;
@@ -728,7 +747,78 @@ categoryInput, #title {
 
   /*==========================*/
 
-  
+
+/*** CSS Login Formulary ***/
+
+.typography-for-login-in-user-page {
+	font-weight: 600;
+}
+
+.user-login-formulary form {
+	display: flex;
+	flex-direction: column;
+	text-align: left;
+}
+
+.user-login-formulary {
+	width: 50%;
+	margin: auto;
+	padding: 140px 170px 330px 170px;
+}
+
+
+
+.space-between-label-and-input-in-user-login-formulary {
+	padding-bottom: 5px;
+	padding-top: 30px;
+}
+
+.user-login-formulary input {
+	height: 50px;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+.user-login-formulary input[type="submit"] {
+	margin: 40px auto 30px;
+	height: 36px;
+	display: block;
+	border: none;
+	color: #FFFFFF;
+    border-radius: 60px;
+	font-size: 1em;
+	padding: 10px 39px;
+	min-width: 180px;
+}
+
+.user-login-formulary a {
+	margin: auto;
+	text-decoration: underline;
+}
+
+.name-of-designer {
+
+}
+
+/***** CSS admin mode only *****/
+
+body.connected .only-guest {
+	display:none;
+}
+
+body.connected .only-admin {
+	display:block;
+}
+
+
+
+
+
+
+
+
+
+
 
   
 

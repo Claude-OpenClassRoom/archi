@@ -29,6 +29,57 @@ function genererTravaux(travaux){
 
 }
 
+async function ajoutTravaux(works) {
+  const listOfWorks  = document.querySelector(".modify_action");
+listOfWorks .addEventListener("click", async function (event) {
+  event.preventDefault();	            
+      const aside = document.querySelector(".modal")
+      aside.style.display="block";
+              for (let i = 0; i < works.length; i++) {
+            
+                  const travail = works[i];
+                  // Récupération de l'élément du DOM qui accueillera les travaux
+                  
+                  const sectionWorks = document.querySelector(".modal_gallery");
+
+                  // Création d’une balise dédiée à un work
+                  const workElement = document.createElement("figure");
+                  // Création des balises 
+                  workElement.classList.add('work-element');
+  
+                  const imageElement = document.createElement("img");
+                  imageElement.src = travail.imageUrl;                                 
+                     
+                  const trashIcon = document.createElement("i");
+                  trashIcon.classList.add('fa-regular', 'fa-trash-can', 'trash-icon');
+      
+                  const linkIcon = document.createElement("a");
+                  linkIcon.classList.add('link-icon');
+                  linkIcon.appendChild(trashIcon);
+      
+                  linkIcon.addEventListener("click", function (event) {
+                      event.preventDefault(); // Empêche le rechargement de la page
+                      deleteWork(travail.id); // Supprime le travail lors du clic
+                    });                
+                  
+                   // On rattache la balise work a la section madal
+                  sectionWorks.appendChild(workElement);
+                  workElement.appendChild(imageElement);
+                  workElement.appendChild(linkIcon);
+       
+                const closedGallery = document.querySelector (".closed")                   
+                closedGallery .addEventListener("click", async function () {      
+                  document.querySelector(".modal_gallery").innerHTML = "";
+                  const aside = document.querySelector(".modal")
+                  aside.style.display="none";
+                } )
+        
+               }           
+           
+  })
+
+}
+
 function genererFiltres(){
     const sectionFiltres = document.querySelector(".filtres");
  
@@ -55,84 +106,7 @@ const boutonFiltrerTous = document.querySelector("#tous");
 
 afficherFiltre(categories)
 
-  async function ajoutTravaux(works) {
-    const listOfWorks  = document.querySelector(".modify_action");
-	listOfWorks .addEventListener("click", async function (event) {
-		event.preventDefault();	            
-        const aside = document.querySelector(".modal")
-        aside.style.display="block";
-                for (let i = 0; i < works.length; i++) {
-              
-                    const travail = works[i];
-                    // Récupération de l'élément du DOM qui accueillera les travaux
-                    
-                    const sectionWorks = document.querySelector(".modal_gallery");
  
-                    // Création d’une balise dédiée à un work
-                    const workElement = document.createElement("figure");
-                    // Création des balises 
-                    workElement.classList.add('work-element');
-    
-                    const imageElement = document.createElement("img");
-                    imageElement.src = travail.imageUrl;                                 
-                       
-                    const trashIcon = document.createElement("i");
-                    trashIcon.classList.add('fa-regular', 'fa-trash-can', 'trash-icon');
-        
-                    const linkIcon = document.createElement("a");
-                    linkIcon.classList.add('link-icon');
-                    linkIcon.appendChild(trashIcon);
-        
-                    linkIcon.addEventListener("click", function (event) {
-                        event.preventDefault(); // Empêche le rechargement de la page
-                        deleteWork(travail.id); // Supprime le travail lors du clic
-                      });                
-                    
-                     // On rattache la balise work a la section madal
-                    sectionWorks.appendChild(workElement);
-                    workElement.appendChild(imageElement);
-                    workElement.appendChild(linkIcon);
-         
-                  const closedGallery = document.querySelector (".closed")                   
-                  closedGallery .addEventListener("click", async function () {      
-                    document.querySelector(".modal_gallery").innerHTML = "";
-                    const aside = document.querySelector(".modal")
-                    aside.style.display="none";
-                  } )
-          
-                 }           
-             
-    })
-
-}
-
-  // Variable globale pour stocker les travaux afin d'éviter des requêtes API multiples inutiles.
-let globalWorks = null;
-
-// Fonction asynchrone pour récupérer les travaux depuis l'API.
-async function getWorks() {
-  // Vérifie si les travaux ont déjà été récupérés et stockés dans la variable globale.
-  if (!globalWorks) {
-    try {
-      // Effectue la requête à l'API.
-      const response = await fetch("http://localhost:5678/api/works");
-      // Vérifie si la réponse est valide.
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      // Convertit la réponse en JSON et la stocke dans la variable globale.
-      globalWorks = await response.json();
-     
-    } catch (error) {
-      console.error("Failed to fetch works:", error.message);
-      // Assigner un tableau vide en cas d'échec de la récupération des données.
-      globalWorks = [];
-    }
-  }
-  // Retourne les travaux stockés.
-  return globalWorks;
-}
-
 // Fonction pour afficher les catégories dans l'interface utilisateur.
 
 
@@ -142,8 +116,8 @@ async function filterWorks(categoryId) {
 
 // Vérifie si l'utilisateur est connecté
 function isConnected() {
-  // Retourne vrai si le token existe dans le sessionStorage, faux sinon
-  return sessionStorage.getItem("token") !== null;
+  // Retourne vrai si le token existe dans le localStorage, faux sinon
+  return localStorage.getItem("token") !== null;
 }
 
 // Gère le bouton de connexion/déconnexion en fonction de l'état de connexion
@@ -151,13 +125,15 @@ function handleLoginButton() {
   const loginButton = document.querySelector("#login-button");
   const bandeau_mode_edition = document.querySelector("#header-edit")
   const pop_up_modif = document.querySelector(".popup_edit")
+  const filtreCategorie= document.querySelector(".filtre")
   if (isConnected()) {
     loginButton.innerText = "logout";
     bandeau_mode_edition.style.display="block";
     pop_up_modif.style.display="block";
     pop_up_modif.style.display="flex";
+    document.querySelector(".filtres").innerHTML = "";
     loginButton.addEventListener("click", () => {
-      sessionStorage.removeItem("token");
+      localStorage.removeItem("token");
       window.location.href = "./index.html"; // Redirige vers l'accueil après déconnexion
     });
   } else {
