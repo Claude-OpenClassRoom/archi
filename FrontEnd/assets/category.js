@@ -1,4 +1,4 @@
-  async function afficherFiltre(categories) {
+async function afficherFiltre(categories) {
     const sectionFiltres = document.querySelector(".filtres");
     categories.forEach(category=>{
         const button = document.createElement("button")

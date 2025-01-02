@@ -242,7 +242,7 @@ async function deleteWork(workId) {
     const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
       method: "DELETE",
       headers: {
-        Authorization: `Bearer ${sessionStorage.getItem("token")}`, // Utilise le token stocké pour l'authentification
+        Authorization: `Bearer ${localStorage.getItem("token")}`, // Utilise le token stocké pour l'authentification
       },
     });
 
@@ -314,7 +314,7 @@ async function addWork(event) {
       method: "POST",
       body: formData,
       headers: {
-        Authorization: `Bearer ${sessionStorage.getItem("token")}`, // Authentification avec le token
+        Authorization: `Bearer ${localStorage.getItem("token")}`, // Authentification avec le token
       },
     });
 
