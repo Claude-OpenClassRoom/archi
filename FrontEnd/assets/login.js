@@ -1,6 +1,6 @@
 // Executing JS code when the page is loaded
 document.addEventListener('DOMContentLoaded', function() {
-	document.getElementById('user-login-form').addEventListener('submit', function(event) {
+	document.getElementById('user-login-form').addEventListener('submit',async function(event) {
 		event.preventDefault();
 		// Gathering data from form
 		const user = {
