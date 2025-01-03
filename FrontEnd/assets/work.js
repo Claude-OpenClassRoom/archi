@@ -2,13 +2,14 @@
 // Récupération des travaux depuis le fichier JSON
 const reponse = await fetch('http://localhost:5678/api/works');
 const travaux = await reponse.json();
+console.log(travaux);
+
 const response = await fetch('http://localhost:5678/api/categories');
 const categories = await response.json();
 
 /*ajoutListenerEnvoyerUtilisateur()*/
 function genererTravaux(travaux){
-  for (let i = 0; i < travaux.length; i++) {
-
+  for (let i = 0; i < travaux.length; i++) {     
       const work = travaux[i];
       // Récupération de l'élément du DOM qui accueillera les travaux
       const sectionGallery = document.querySelector(".gallery");
@@ -169,12 +170,12 @@ function adjustDisplayBasedOnLogin() {
   if (loggedIn) {
     headerEdit.style.display = "flex";
     editWorks.style.display = "block";
-    filterContainer.style.display = "none";
+   // filterContainer.style.display = "none";
   } else {
     // Sinon, masque les éléments d'édition et affiche le conteneur de filtres
     headerEdit.style.display = "none";
     editWorks.style.display = "none";
-    filterContainer.style.display = "flex";
+   // filterContainer.style.display = "flex";
   }
 }
 
